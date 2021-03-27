@@ -4,4 +4,5 @@
     <string name="user">usuário</string>
     <string name="password">senha</string>
     <string name="enter">entrar</string>
+    <string name="login_error">Email/Senha invalido</string>
 </resources>
