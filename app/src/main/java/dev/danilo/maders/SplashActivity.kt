@@ -8,6 +8,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        supportFragmentManager.beginTransaction().replace(R.id.clRoot, LoginFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fl_root, LoginFragment()).commit()
     }
 }
