@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">maders</string>
+    <string name="login_text">faça seu login</string>
+    <string name="user">usuário</string>
+    <string name="password">senha</string>
+    <string name="enter">entrar</string>
+</resources>
