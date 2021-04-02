@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import dev.danilo.maders.R
 import dev.danilo.maders.databinding.ActivityHomeBinding
-import dev.danilo.maders.databinding.ActivityProductBinding
 import dev.danilo.maders.feature.products.fragment.ProductFragment
 
 class HomeActivity : AppCompatActivity() {
