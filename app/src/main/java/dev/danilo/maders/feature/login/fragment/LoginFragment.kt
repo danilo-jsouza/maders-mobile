@@ -1,6 +1,5 @@
 package dev.danilo.maders.feature.login.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.lifecycle.Observer
 import dev.danilo.maders.R
 import dev.danilo.maders.databinding.FragmentLoginBinding
 import dev.danilo.maders.feature.login.viewModel.LoginViewModel
-import dev.danilo.maders.feature.products.activity.ProductActivity
+import dev.danilo.maders.feature.products.activity.HomeActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -40,7 +39,7 @@ class LoginFragment : Fragment() {
 
         viewModel.login.observe(this, Observer { isAuth ->
             if (isAuth) {
-                startActivity(ProductActivity.newInstance(requireContext()))
+                startActivity(HomeActivity.newInstance(requireContext()))
                 activity?.finish()
             } else {
                 Toast.makeText(requireContext(), context?.getString(R.string.login_error), Toast.LENGTH_SHORT).show()
