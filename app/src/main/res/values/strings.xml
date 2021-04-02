@@ -5,4 +5,5 @@
     <string name="password">senha</string>
     <string name="enter">entrar</string>
     <string name="login_error">Email/Senha invalido</string>
+    <string name="products">produtos</string>
 </resources>
