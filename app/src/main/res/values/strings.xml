@@ -6,4 +6,8 @@
     <string name="enter">entrar</string>
     <string name="login_error">Email/Senha invalido</string>
     <string name="products">produtos</string>
+    <string name="settings">configurações</string>
+    <string name="add_product">adiciona produto</string>
+    <string name="add">adiciona</string>
+    <string name="portion">Ração</string>
 </resources>

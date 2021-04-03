@@ -3,12 +3,10 @@ package dev.danilo.maders.feature.products.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import dev.danilo.maders.R
 import dev.danilo.maders.databinding.ActivityHomeBinding
-import dev.danilo.maders.databinding.ActivityProductBinding
 import dev.danilo.maders.feature.products.fragment.ProductFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -19,10 +17,10 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         supportFragmentManager.beginTransaction().replace(R.id.fl_content, ProductFragment()).commit()
     }
-
 }
