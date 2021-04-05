@@ -33,7 +33,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
                 val searchView: SearchView = item.actionView as SearchView
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        Toast.makeText(context, "text escrito: $query", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "texto pesquisado: $query", Toast.LENGTH_SHORT).show()
                         return true
                     }
 
