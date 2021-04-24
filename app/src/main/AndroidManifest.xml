@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.danilo.maders">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,13 +12,19 @@
         android:supportsRtl="true"
         android:name=".MadersApp"
         android:theme="@style/Theme.Maders">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".feature.products.activity.HomeActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name=".feature.settings.activity.SettingsActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name=".feature.generic.activity.GenericActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

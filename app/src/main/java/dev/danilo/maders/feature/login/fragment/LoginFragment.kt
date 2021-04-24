@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import dev.danilo.maders.R
 import dev.danilo.maders.databinding.FragmentLoginBinding
 import dev.danilo.maders.feature.login.viewModel.LoginViewModel
+import dev.danilo.maders.feature.products.activity.HomeActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -37,9 +39,10 @@ class LoginFragment : Fragment() {
 
         viewModel.login.observe(this, Observer { isAuth ->
             if (isAuth) {
-                Toast.makeText(requireContext(), "foi porra", Toast.LENGTH_LONG).show()
+                startActivity(HomeActivity.newInstance(requireContext()))
+                activity?.finish()
             } else {
-                Toast.makeText(requireContext(), "fodeu", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), context?.getString(R.string.login_error), Toast.LENGTH_SHORT).show()
             }
 
         })
