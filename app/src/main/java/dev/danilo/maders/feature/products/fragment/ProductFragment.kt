@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import dev.danilo.maders.R
@@ -25,6 +27,10 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
     companion object {
         private const val COLUMN_COUNT = 2
     }
+
+
+    private lateinit var rootLateralMenu: DrawerLayout
+    private lateinit var lateralMenu: NavigationView
 
     override fun getViewBinding() =
         FragmentProductBinding.inflate(LayoutInflater.from(requireContext()))
@@ -53,6 +59,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.run {
+            rootLateralMenu = findViewById(R.id.root_lateral_menu)
+            lateralMenu = findViewById(R.id.menu_lateral)
+        }
+
         binding.rvPortion.run {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = PortionAdapter(
@@ -76,16 +87,16 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
     private fun settingLateralMenu() {
         val toogle = ActionBarDrawerToggle(
             requireActivity(),
-            binding.rootLateralMenu,
+            rootLateralMenu,
             toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
 
-        binding.rootLateralMenu.addDrawerListener(toogle)
+        rootLateralMenu.addDrawerListener(toogle)
         toogle.syncState()
 
-        binding.menuLateral.setNavigationItemSelectedListener(this)
+        lateralMenu.setNavigationItemSelectedListener(this)
     }
 
     private fun logout() {
@@ -119,6 +130,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
             R.id.nav_settings -> openSettings()
             R.id.nav_exit -> logout()
         }
+
+        rootLateralMenu?.closeDrawer(GravityCompat.START)
         return true
     }
 }
