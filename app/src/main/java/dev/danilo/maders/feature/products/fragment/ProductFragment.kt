@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import dev.danilo.maders.R
+import dev.danilo.maders.SharedPreferences
 import dev.danilo.maders.SplashActivity
 import dev.danilo.maders.base.BaseFragment
 import dev.danilo.maders.databinding.FragmentProductBinding
@@ -25,6 +26,7 @@ import dev.danilo.maders.feature.products.adapter.PortionAdapter
 import dev.danilo.maders.feature.products.viewmodel.ProductViewModel
 import dev.danilo.maders.feature.settings.activity.SettingsActivity
 import dev.danilo.maders.model.Portion
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked,
@@ -38,6 +40,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
     private lateinit var lateralMenu: NavigationView
 
     private val viewModel: ProductViewModel by viewModel()
+
+    private val sharedPreferences: SharedPreferences by inject()
 
     override fun getViewBinding() =
         FragmentProductBinding.inflate(LayoutInflater.from(requireContext()))
@@ -127,6 +131,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
     private fun logout() {
         val intent = Intent(requireContext(), SplashActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        sharedPreferences.setToken(null)
         startActivity(intent)
         activity?.finish()
     }

@@ -17,7 +17,7 @@ class UserRepository(
 ) {
 
     fun fetchLogin(user: String, password: String): Flow<Auth> = flow {
-        val userRequest = UserRequest(user, password)
+        val userRequest = UserRequest(email = user, password = password)
         val auth = service.login(userRequest)
         emit(auth)
     }.flowOn(dispatcher)

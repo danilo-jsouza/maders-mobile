@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import dev.danilo.maders.R
 import dev.danilo.maders.databinding.FragmentRegisterBinding
+import dev.danilo.maders.extension.Result
+import dev.danilo.maders.feature.products.activity.HomeActivity
 import dev.danilo.maders.feature.register.viewmodel.RegisterViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -31,6 +36,28 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonRegister.setOnClickListener { sendRegister() }
+        viewModel.register.observe(this) { state ->
+            val isLoading = state is Result.Loading
+            binding.progressBar.isVisible = isLoading
+            if(isLoading) return@observe
+            when (state) {
+                is Result.Error -> handleError()
+                else -> goToLogin()
+            }
+        }
+    }
+
+    private fun handleError() {
+        Toast.makeText(
+            requireContext(),
+            context?.getString(R.string.register_error),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun goToLogin() {
+        startActivity(HomeActivity.newInstance(requireContext()))
+        activity?.finish()
     }
 
     private fun sendRegister() {

@@ -13,6 +13,7 @@ import dev.danilo.maders.extension.Result
 import dev.danilo.maders.extension.isVisible
 import dev.danilo.maders.feature.login.viewModel.LoginViewModel
 import dev.danilo.maders.feature.products.activity.HomeActivity
+import dev.danilo.maders.feature.register.activity.RegisterActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -37,6 +38,7 @@ class LoginFragment : Fragment() {
                     edtPass.text.toString()
                 )
             }
+            buttonRegister.setOnClickListener { goToRegister() }
         }
 
         viewModel.login.observe(this, Observer { state ->
@@ -62,5 +64,9 @@ class LoginFragment : Fragment() {
     private fun goToLogin() {
         startActivity(HomeActivity.newInstance(requireContext()))
         activity?.finish()
+    }
+
+    private fun goToRegister() {
+        startActivity(RegisterActivity.newInstance(requireContext()))
     }
 }
