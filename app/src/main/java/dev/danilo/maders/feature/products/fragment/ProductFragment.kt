@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.navigation.NavigationView
 import dev.danilo.maders.R
 import dev.danilo.maders.SplashActivity
 import dev.danilo.maders.base.BaseFragment
@@ -18,11 +22,15 @@ import dev.danilo.maders.feature.products.adapter.PortionAdapter
 import dev.danilo.maders.feature.settings.activity.SettingsActivity
 import dev.danilo.maders.model.Portion
 
-class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked {
-
+class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked,
+    NavigationView.OnNavigationItemSelectedListener {
     companion object {
         private const val COLUMN_COUNT = 2
     }
+
+
+    private lateinit var rootLateralMenu: DrawerLayout
+    private lateinit var lateralMenu: NavigationView
 
     override fun getViewBinding() =
         FragmentProductBinding.inflate(LayoutInflater.from(requireContext()))
@@ -33,7 +41,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
                 val searchView: SearchView = item.actionView as SearchView
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        Toast.makeText(context, "texto pesquisado: $query", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "texto pesquisado: $query", Toast.LENGTH_SHORT)
+                            .show()
                         return true
                     }
 
@@ -50,6 +59,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.run {
+            rootLateralMenu = findViewById(R.id.root_lateral_menu)
+            lateralMenu = findViewById(R.id.menu_lateral)
+        }
+
         binding.rvPortion.run {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = PortionAdapter(
@@ -62,12 +76,27 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
                 getString(R.string.add)
             )
         }
-
+        settingLateralMenu()
     }
 
     private fun openSettings() {
         val intent = Intent(context, SettingsActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun settingLateralMenu() {
+        val toogle = ActionBarDrawerToggle(
+            requireActivity(),
+            rootLateralMenu,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+
+        rootLateralMenu.addDrawerListener(toogle)
+        toogle.syncState()
+
+        lateralMenu.setNavigationItemSelectedListener(this)
     }
 
     private fun logout() {
@@ -91,5 +120,18 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
             putExtra(GenericActivity.TEXT_PARAM, text)
         }
         startActivity(intent)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_add_product -> {
+                openGenericScreen(getString(R.string.add_product), getString(R.string.add_product))
+            }
+            R.id.nav_settings -> openSettings()
+            R.id.nav_exit -> logout()
+        }
+
+        rootLateralMenu?.closeDrawer(GravityCompat.START)
+        return true
     }
 }
