@@ -9,18 +9,23 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import dev.danilo.maders.R
 import dev.danilo.maders.SplashActivity
 import dev.danilo.maders.base.BaseFragment
 import dev.danilo.maders.databinding.FragmentProductBinding
+import dev.danilo.maders.extension.Result
 import dev.danilo.maders.feature.generic.activity.GenericActivity
 import dev.danilo.maders.feature.products.adapter.OnPortionClicked
 import dev.danilo.maders.feature.products.adapter.PortionAdapter
+import dev.danilo.maders.feature.products.viewmodel.ProductViewModel
 import dev.danilo.maders.feature.settings.activity.SettingsActivity
 import dev.danilo.maders.model.Portion
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked,
     NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +36,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
 
     private lateinit var rootLateralMenu: DrawerLayout
     private lateinit var lateralMenu: NavigationView
+
+    private val viewModel: ProductViewModel by viewModel()
 
     override fun getViewBinding() =
         FragmentProductBinding.inflate(LayoutInflater.from(requireContext()))
@@ -64,12 +71,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
             lateralMenu = findViewById(R.id.menu_lateral)
         }
 
-        binding.rvPortion.run {
-            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
-            adapter = PortionAdapter(
-                Portion.mockItems(), this@ProductFragment
-            )
-        }
         binding.floatButton.setOnClickListener {
             openGenericScreen(
                 getString(R.string.add),
@@ -77,6 +78,30 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
             )
         }
         settingLateralMenu()
+        viewModel.fetchPortion()
+        viewModel.product.observe(this, Observer { state ->
+            val isLoading = state is Result.Loading
+            binding.progressBar.isVisible = isLoading
+            if(isLoading) return@Observer
+
+            when (state) {
+                is Result.Error -> handleError(state.throwable)
+                else -> if (state is Result.Success) updateUI(state.data)
+            }
+        })
+    }
+
+    private fun updateUI(data: List<Portion>) {
+        binding.rvPortion.run {
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
+            adapter = PortionAdapter(
+                data, this@ProductFragment
+            )
+        }
+    }
+
+    private fun handleError(throwable: Throwable) {
+
     }
 
     private fun openSettings() {

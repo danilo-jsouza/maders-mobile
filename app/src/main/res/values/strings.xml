@@ -13,4 +13,7 @@
     <string name="username">Aluno Impacta</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="register">Registrar</string>
+    <string name="new_password">confirme sua senha</string>
+    <string name="email">e-mail</string>
 </resources>

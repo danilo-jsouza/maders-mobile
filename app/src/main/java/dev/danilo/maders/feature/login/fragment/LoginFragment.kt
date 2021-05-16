@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import dev.danilo.maders.R
 import dev.danilo.maders.databinding.FragmentLoginBinding
+import dev.danilo.maders.extension.Result
+import dev.danilo.maders.extension.isVisible
 import dev.danilo.maders.feature.login.viewModel.LoginViewModel
 import dev.danilo.maders.feature.products.activity.HomeActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,14 +39,28 @@ class LoginFragment : Fragment() {
             }
         }
 
-        viewModel.login.observe(this, Observer { isAuth ->
-            if (isAuth) {
-                startActivity(HomeActivity.newInstance(requireContext()))
-                activity?.finish()
-            } else {
-                Toast.makeText(requireContext(), context?.getString(R.string.login_error), Toast.LENGTH_SHORT).show()
-            }
+        viewModel.login.observe(this, Observer { state ->
+            val isLoading = state is Result.Loading
+            binding.progressBar.isVisible(isLoading)
+            if (isLoading) return@Observer
 
+            when (state) {
+                is Result.Success -> goToLogin()
+                else -> handleError()
+            }
         })
+    }
+
+    private fun handleError() {
+        Toast.makeText(
+            requireContext(),
+            context?.getString(R.string.login_error),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun goToLogin() {
+        startActivity(HomeActivity.newInstance(requireContext()))
+        activity?.finish()
     }
 }

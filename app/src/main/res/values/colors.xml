@@ -14,5 +14,5 @@
     <color name="background_button_login">#7F7E83</color>
     <color name="background_gray">#68676C</color>
     <color name="blue">#2c3e50</color>
-
+    <color name="transparent">#00FFFFFF</color>
 </resources>

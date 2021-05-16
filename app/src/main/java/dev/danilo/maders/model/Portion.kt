@@ -1,9 +1,15 @@
 package dev.danilo.maders.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Portion(
+    @SerializedName("id")
     var id: String?,
+    @SerializedName("name")
     var name: String?,
+    @SerializedName("imageURL")
     var imageUrl: String?,
+    @SerializedName("price")
     var price: Double?
 ) {
     companion object {
