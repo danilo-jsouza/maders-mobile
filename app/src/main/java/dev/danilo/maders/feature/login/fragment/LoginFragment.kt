@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import dev.danilo.maders.NotificationUtil
 import dev.danilo.maders.R
 import dev.danilo.maders.databinding.FragmentLoginBinding
 import dev.danilo.maders.extension.Result
@@ -62,11 +63,24 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToLogin() {
-        startActivity(HomeActivity.newInstance(requireContext()))
+        val ctx = context ?: return
+        val intent = HomeActivity.newInstance(ctx)
+        NotificationUtil.create(
+            ctx,
+            NOTIFICATION_ID,
+            intent,
+            ctx.getString(R.string.login_success),
+            ctx.getString(R.string.login_success_description)
+        )
+        startActivity(intent)
         activity?.finish()
     }
 
     private fun goToRegister() {
         startActivity(RegisterActivity.newInstance(requireContext()))
+    }
+
+    companion object {
+        private const val NOTIFICATION_ID = 1
     }
 }

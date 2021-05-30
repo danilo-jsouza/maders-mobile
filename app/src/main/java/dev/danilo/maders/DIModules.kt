@@ -17,7 +17,7 @@ import org.koin.dsl.module
 @FlowPreview
 object DIModules {
     fun inject(): List<Module> {
-        return listOf(viewModelModule, networkModule, repositoryModule)
+        return listOf(viewModelModule, networkModule, repositoryModule, databaseModule)
     }
 
     private val networkModule = module {
@@ -25,14 +25,18 @@ object DIModules {
         single { ApiService.getService(get()) } bind ApiService::class
     }
 
+    private val databaseModule = module {
+        single { DatabaseManager(get()) }
+    }
+
     private val repositoryModule = module {
         factory { UserRepository(get()) }
-        factory { ProductRepository(get()) }
+        factory { ProductRepository(get(), get()) }
     }
 
     private val viewModelModule = module {
         viewModel { LoginViewModel(get(), get()) }
         viewModel { RegisterViewModel(get(), get()) }
-        viewModel { ProductViewModel(get()) }
+        viewModel { ProductViewModel(get(), get()) }
     }
 }

@@ -17,4 +17,6 @@
     <string name="new_password">confirme sua senha</string>
     <string name="email">e-mail</string>
     <string name="register_error">erro ao cadastrar</string>
+    <string name="login_success">sucesso!</string>
+    <string name="login_success_description">parabéns, você se autenticou!</string>
 </resources>

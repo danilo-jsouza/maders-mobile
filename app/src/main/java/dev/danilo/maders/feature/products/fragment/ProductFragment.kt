@@ -35,7 +35,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), OnPortionClicked
         private const val COLUMN_COUNT = 2
     }
 
-
     private lateinit var rootLateralMenu: DrawerLayout
     private lateinit var lateralMenu: NavigationView
 
